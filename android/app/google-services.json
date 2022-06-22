@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "788176911613",
+    "project_id": "corrida-de-regularidade",
+    "storage_bucket": "corrida-de-regularidade.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:788176911613:android:3b1b28412593974f79d294",
+        "android_client_info": {
+          "package_name": "com.example.corrida_de_regulariodade_flutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "788176911613-jok57ps0e9hcm77b8ramonls9ufsciee.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD5tpRH0r6BH77irRIAzjH1GRvhPW8Zf9Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "788176911613-jok57ps0e9hcm77b8ramonls9ufsciee.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "788176911613-3q8fms7gj94nfhddh8irjdulg0i4rgks.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.corridaDeRegulariodadeFlutter"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
