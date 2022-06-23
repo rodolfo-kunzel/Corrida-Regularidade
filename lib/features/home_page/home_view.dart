@@ -1,3 +1,4 @@
+import 'package:corrida_de_regulariodade_flutter/constants/app_bar_constant.dart';
 import 'package:corrida_de_regulariodade_flutter/constants/app_constant_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -10,19 +11,12 @@ class HomeView extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         backgroundColor: AppConstantColors.appOrange,
-        appBar: AppBar(
-          title: Center(
-            child: Text(
-              'RESULTADO GERAL',
-              style: GoogleFonts.roboto(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 26,
-                  color: AppConstantColors.appBlack),
-            ),
-          ),
-          backgroundColor: Colors.transparent,
-          elevation: 0,
+        appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(50),
+        child: AppBarConstant(
+          title: 'RESULTADO GERAL',
         ),
+      ),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
