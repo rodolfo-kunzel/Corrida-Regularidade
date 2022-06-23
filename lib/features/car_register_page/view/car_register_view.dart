@@ -1,28 +1,25 @@
+import 'package:corrida_de_regulariodade_flutter/constants/app_bar_constant.dart';
 import 'package:corrida_de_regulariodade_flutter/constants/app_button.dart';
 import 'package:corrida_de_regulariodade_flutter/constants/app_constant_colors.dart';
 import 'package:corrida_de_regulariodade_flutter/constants/app_textfield.dart';
+import 'package:corrida_de_regulariodade_flutter/features/car_register_page/controller/car_register_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CarRegisterView extends StatelessWidget {
-  const CarRegisterView({Key? key}) : super(key: key);
+  final _controller = CarRegisterController();
+  CarRegisterView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppConstantColors.appOrange,
-      appBar: AppBar(
-        title: Center(
-          child: Text(
-            'REGISTRAR CARRO',
-            style: GoogleFonts.roboto(
-                fontWeight: FontWeight.bold,
-                fontSize: 26,
-                color: AppConstantColors.appBlack),
-          ),
+      appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(50),
+        child: AppBarConstant(
+          title: 'REGISTRO DE CARRO',
         ),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -30,7 +27,7 @@ class CarRegisterView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Expanded(
-              flex: 4,
+              flex: 6,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -48,7 +45,11 @@ class CarRegisterView extends StatelessWidget {
                                 color: AppConstantColors.appBlack),
                           ),
                         ),
-                        AppTextfield(),
+                        Observer(builder: (_) {
+                          return AppTextfield(
+                            onChanged: _controller.changeCarNumber,
+                          );
+                        }),
                       ],
                     ),
                   ),
@@ -56,7 +57,7 @@ class CarRegisterView extends StatelessWidget {
               ),
             ),
             Expanded(
-              flex: 4,
+              flex: 6,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -74,7 +75,11 @@ class CarRegisterView extends StatelessWidget {
                                 color: AppConstantColors.appBlack),
                           ),
                         ),
-                        AppTextfield(),
+                        Observer(builder: (_) {
+                          return AppTextfield(
+                            onChanged: _controller.changeCompetitorName,
+                          );
+                        }),
                       ],
                     ),
                   ),
@@ -82,7 +87,7 @@ class CarRegisterView extends StatelessWidget {
               ),
             ),
             Expanded(
-              flex: 4,
+              flex: 6,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -102,7 +107,11 @@ class CarRegisterView extends StatelessWidget {
                                 color: AppConstantColors.appBlack),
                           ),
                         ),
-                        AppTextfield(),
+                        Observer(builder: (_) {
+                          return AppTextfield(
+                            onChanged: _controller.changeLegendaryNumber,
+                          );
+                        }),
                       ],
                     ),
                   ),
@@ -110,11 +119,11 @@ class CarRegisterView extends StatelessWidget {
               ),
             ),
             Expanded(
-              flex: 5,
+              flex: 4,
               child: Align(
                 alignment: Alignment.topCenter,
                 child: Padding(
-                  padding: const EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: Text(
                     'Lista de Carros',
                     style: GoogleFonts.roboto(
@@ -125,11 +134,21 @@ class CarRegisterView extends StatelessWidget {
                 ),
               ),
             ),
-            Expanded(
-              flex: 8,
-                child: AppButton(
-              onTap: () {},
-            ))
+            Observer(builder: (_) {
+              return Expanded(
+                  flex: 8,
+                  child: AppButton(
+                    onTap: () {
+                      _controller.allInputsValid ? _controller.registerCar() : null;
+                    },
+                    bottonBackgroud: _controller.allInputsValid
+                        ? AppConstantColors.appBlack
+                        : AppConstantColors.appFadedBlack,
+                    bottonTextColor: _controller.allInputsValid
+                        ? AppConstantColors.appOrange
+                        : AppConstantColors.appFadedOrange,
+                  ));
+            })
           ],
         ),
       ),

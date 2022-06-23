@@ -4,7 +4,9 @@ import 'package:google_fonts/google_fonts.dart';
 
 class AppButton extends StatelessWidget {
   final void Function() onTap;
-  const AppButton({Key? key, required this.onTap}) : super(key: key);
+  final Color bottonBackgroud;
+  final Color bottonTextColor;
+  const AppButton({Key? key, required this.onTap, required this.bottonBackgroud, required this.bottonTextColor}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,7 @@ class AppButton extends StatelessWidget {
                 style: GoogleFonts.roboto(
                     fontWeight: FontWeight.bold,
                     fontSize: 24,
-                    color: AppConstantColors.appOrange),
+                    color: bottonTextColor),
                 textAlign: TextAlign.center,
               ),
             ),
