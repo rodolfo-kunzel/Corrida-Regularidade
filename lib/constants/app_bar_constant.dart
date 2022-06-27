@@ -11,14 +11,13 @@ class AppBarConstant extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: AppBar(
-        title: Center(
-          child: Text(
-            title,
-            style: GoogleFonts.roboto(
-                fontWeight: FontWeight.bold,
-                fontSize: 26,
-                color: AppConstantColors.appBlack),
-          ),
+        centerTitle: true,
+        title: Text(
+          title,
+          style: GoogleFonts.roboto(
+              fontWeight: FontWeight.bold,
+              fontSize: 26,
+              color: AppConstantColors.appBlack),
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,

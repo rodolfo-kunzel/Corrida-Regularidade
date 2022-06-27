@@ -1,10 +1,12 @@
 import 'package:corrida_de_regulariodade_flutter/constants/app_bar_constant.dart';
 import 'package:corrida_de_regulariodade_flutter/constants/app_constant_colors.dart';
+import 'package:corrida_de_regulariodade_flutter/features/car_register_page/view/car_register_view.dart';
+import 'package:corrida_de_regulariodade_flutter/features/stop_register_page/view/stop_register_view.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HomeView extends StatelessWidget {
-  const HomeView({Key? key}) : super(key: key);
+  HomeView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -12,11 +14,11 @@ class HomeView extends StatelessWidget {
       child: Scaffold(
         backgroundColor: AppConstantColors.appOrange,
         appBar: const PreferredSize(
-        preferredSize: Size.fromHeight(50),
-        child: AppBarConstant(
-          title: 'RESULTADO GERAL',
+          preferredSize: Size.fromHeight(50),
+          child: AppBarConstant(
+            title: 'RESULTADO GERAL',
+          ),
         ),
-      ),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
@@ -51,6 +53,12 @@ class HomeView extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.all(4.0),
                         child: InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => StopRegisterView()));
+                          },
                           child: Container(
                             constraints: const BoxConstraints.expand(),
                             decoration: BoxDecoration(
@@ -109,6 +117,12 @@ class HomeView extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.all(4.0),
                         child: InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => CarRegisterView()));
+                          },
                           child: Container(
                             constraints: const BoxConstraints.expand(),
                             decoration: BoxDecoration(
