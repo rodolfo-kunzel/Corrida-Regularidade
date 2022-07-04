@@ -5,11 +5,10 @@ part 'race_page_controller.g.dart';
 class RacePageController = _RacePageControllerBase with _$RacePageController;
 
 abstract class _RacePageControllerBase with Store {
-
   @observable
   String currentStop = "";
 
-  @action 
+  @action
   void changeCurrentStop(dynamic newValue) => currentStop = newValue;
 
   @observable
@@ -17,7 +16,12 @@ abstract class _RacePageControllerBase with Store {
 
   @action
   Future<void> allStopNames() async {
-    FirebaseFirestore.instance.collection("Pontos").get().then((value) {for (var element in value.docs) { allStops.add(element.id);}});
+    FirebaseFirestore.instance.collection("Pontos").get().then(
+      (value) {
+        for (var element in value.docs) {
+          allStops.add(element.id);
+        }
+      },
+    );
   }
-  
 }

@@ -102,38 +102,7 @@ class _RacePageViewState extends State<RacePageView> {
                                 color: AppConstantColors.appBlack),
                           ),
                         ),
-                        StreamBuilder<QuerySnapshot>(
-                          stream: FirebaseFirestore.instance
-                              .collection("Pontos")
-                              .snapshots(),
-                          builder: (context, snapshot) {
-                            List<DropdownMenuItem<String>> pontosRegistrados = [];
-                            for (int i = 0;
-                                i < snapshot.data!.docs.length;
-                                i++) {
-                              DocumentSnapshot currentSnapshot =
-                                  snapshot.data!.docs[i];
-                              pontosRegistrados.add(DropdownMenuItem(
-                                child: Text(currentSnapshot.id),
-                                value: "currentSnapshot.id",
-                              ));
-                            }
-                            return Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                DropdownButton<String>(
-                                  value: dropdownValue,
-                                  items: pontosRegistrados,
-                                  onChanged: (String? currentValue){
-                                    setState(() {
-                                      currentValue = dropdownValue;
-                                    });
-                                  },
-                                )
-                              ],
-                            );
-                          },
-                        ),
+                        
                       ],
                     ),
                   ),
