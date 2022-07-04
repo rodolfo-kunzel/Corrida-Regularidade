@@ -16,6 +16,12 @@ mixin _$StopRegisterController on _StopRegisterControllerBase, Store {
       (_$allInputsValidComputed ??= Computed<bool>(() => super.allInputsValid,
               name: '_StopRegisterControllerBase.allInputsValid'))
           .value;
+  Computed<bool>? _$isStartComputed;
+
+  @override
+  bool get isStart => (_$isStartComputed ??= Computed<bool>(() => super.isStart,
+          name: '_StopRegisterControllerBase.isStart'))
+      .value;
 
   late final _$stopNameAtom =
       Atom(name: '_StopRegisterControllerBase.stopName', context: context);
@@ -37,13 +43,13 @@ mixin _$StopRegisterController on _StopRegisterControllerBase, Store {
       name: '_StopRegisterControllerBase.minutesSinceStart', context: context);
 
   @override
-  int get minutesSinceStart {
+  String get minutesSinceStart {
     _$minutesSinceStartAtom.reportRead();
     return super.minutesSinceStart;
   }
 
   @override
-  set minutesSinceStart(int value) {
+  set minutesSinceStart(String value) {
     _$minutesSinceStartAtom.reportWrite(value, super.minutesSinceStart, () {
       super.minutesSinceStart = value;
     });
@@ -62,22 +68,6 @@ mixin _$StopRegisterController on _StopRegisterControllerBase, Store {
   set dropDownValue(String value) {
     _$dropDownValueAtom.reportWrite(value, super.dropDownValue, () {
       super.dropDownValue = value;
-    });
-  }
-
-  late final _$dropDownValuesAtom = Atom(
-      name: '_StopRegisterControllerBase.dropDownValues', context: context);
-
-  @override
-  List<dynamic> get dropDownValues {
-    _$dropDownValuesAtom.reportRead();
-    return super.dropDownValues;
-  }
-
-  @override
-  set dropDownValues(List<dynamic> value) {
-    _$dropDownValuesAtom.reportWrite(value, super.dropDownValues, () {
-      super.dropDownValues = value;
     });
   }
 
@@ -104,7 +94,7 @@ mixin _$StopRegisterController on _StopRegisterControllerBase, Store {
   }
 
   @override
-  void changeMinutesSinceStart(int newValue) {
+  void changeMinutesSinceStart(String newValue) {
     final _$actionInfo =
         _$_StopRegisterControllerBaseActionController.startAction(
             name: '_StopRegisterControllerBase.changeMinutesSinceStart');
@@ -132,8 +122,8 @@ mixin _$StopRegisterController on _StopRegisterControllerBase, Store {
 stopName: ${stopName},
 minutesSinceStart: ${minutesSinceStart},
 dropDownValue: ${dropDownValue},
-dropDownValues: ${dropDownValues},
-allInputsValid: ${allInputsValid}
+allInputsValid: ${allInputsValid},
+isStart: ${isStart}
     ''';
   }
 }
