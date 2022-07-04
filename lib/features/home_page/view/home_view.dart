@@ -1,6 +1,7 @@
 import 'package:corrida_de_regulariodade_flutter/constants/app_bar_constant.dart';
 import 'package:corrida_de_regulariodade_flutter/constants/app_constant_colors.dart';
 import 'package:corrida_de_regulariodade_flutter/features/car_register_page/view/car_register_view.dart';
+import 'package:corrida_de_regulariodade_flutter/features/race_page/view/race_page_view.dart';
 import 'package:corrida_de_regulariodade_flutter/features/stop_register_page/view/stop_register_view.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -88,6 +89,12 @@ class HomeView extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.all(4.0),
                         child: InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => RacePageView()));
+                          },
                           child: Container(
                             constraints: const BoxConstraints.expand(),
                             decoration: BoxDecoration(

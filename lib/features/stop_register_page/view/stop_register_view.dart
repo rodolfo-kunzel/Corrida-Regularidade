@@ -75,7 +75,7 @@ class StopRegisterView extends StatelessWidget {
                         ),
                         Observer(builder: (_) {
                           return AppTextfield(
-                            onChanged: _controller.changeStopName,
+                            onChanged: _controller.changeMinutesSinceStart,
                           );
                         }),
                       ],
@@ -106,14 +106,41 @@ class StopRegisterView extends StatelessWidget {
                           ),
                         ),
                         Observer(builder: (_) {
-                          return DropdownButton(items: <String>['One', 'Two', 'Free', 'Four',"dddd","ffff","ddddd","fwd","sdfs",]
-          .map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value,),
-        );
-      }).toList(),
-      onChanged: _controller.changeDropDownValue,);
+                          return Container(
+                            height: 54,
+                            decoration: BoxDecoration(
+                                border: Border.all(),
+                                color: AppConstantColors.appWhite,
+                                borderRadius: BorderRadius.circular(15)),
+                            child: Padding(
+                              padding: const EdgeInsets.all(2.0),
+                              child: DropdownButton(
+                                style: GoogleFonts.roboto(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                    color: AppConstantColors.appBlack),
+                                iconEnabledColor: AppConstantColors.appBlack,
+                                iconDisabledColor: AppConstantColors.appBlack,
+                                isExpanded: true,
+                                items: <String>[
+                                  "SIM",
+                                  "NÃO"
+                                ].map<DropdownMenuItem<String>>((String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(value,
+                                        style: GoogleFonts.roboto(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16,
+                                            color: AppConstantColors.appBlack)),
+                                  );
+                                }).toList(),
+                                onChanged: _controller.changeDropDownValue,
+                                value: _controller.dropDownValue,
+                                underline: const SizedBox(),
+                              ),
+                            ),
+                          );
                         }),
                       ],
                     ),
@@ -142,7 +169,9 @@ class StopRegisterView extends StatelessWidget {
                   flex: 8,
                   child: AppButton(
                     onTap: () {
-                      _controller.allInputsValid ? _controller.stopRegister() : null;
+                      _controller.allInputsValid
+                          ? _controller.stopRegister()
+                          : null;
                     },
                     bottonBackgroud: _controller.allInputsValid
                         ? AppConstantColors.appBlack

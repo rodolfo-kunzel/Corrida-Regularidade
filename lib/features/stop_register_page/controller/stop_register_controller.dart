@@ -14,33 +14,45 @@ abstract class _StopRegisterControllerBase with Store {
   void changeStopName(String newValue) => stopName = newValue;
 
   @observable
-  int minutesSinceStart = 0;
+  String minutesSinceStart = "";
 
   @action
-  void changeMinutesSinceStart(int newValue) => minutesSinceStart = newValue;
+  void changeMinutesSinceStart(String newValue) => minutesSinceStart = newValue;
 
   @observable
   String dropDownValue = "SIM";
-
-  @observable
-  List dropDownValues =[];
 
   @action 
   void changeDropDownValue(dynamic newValue) => dropDownValue = newValue;
 
   @computed 
-  bool get allInputsValid => stopName.isNotEmpty && minutesSinceStart != 0;
+  bool get allInputsValid => stopName.isNotEmpty;
+
+  @computed
+  bool get isStart => dropDownValue == "SIM";
 
   @action
    Future<void> stopRegister() async {
+    if (isStart) {
     try {
       await FirebaseFirestore.instance.collection("Pontos").doc().set({
         "Nome do Ponto": stopName,
-        "Minutos após início": minutesSinceStart,
-        "Início": dropDownValue    
+        "Minutos após início": 0,
+        "Início": isStart   
       });
     } on FirebaseException catch (e) {
       print(e);
+    }
+    } else {
+      try {
+      await FirebaseFirestore.instance.collection("Pontos").doc().set({
+        "Nome do Ponto": stopName,
+        "Minutos após início": minutesSinceStart,
+        "Início": isStart   
+      });
+    } on FirebaseException catch (e) {
+      print(e);
+    }
     }
 
   }
