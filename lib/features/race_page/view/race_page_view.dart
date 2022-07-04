@@ -7,7 +7,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class RacePageView extends StatefulWidget {
-
   RacePageView({Key? key}) : super(key: key);
 
   @override
@@ -17,6 +16,7 @@ class RacePageView extends StatefulWidget {
 class _RacePageViewState extends State<RacePageView> {
   var currentValue;
   final _controller = RacePageController();
+  String dropdownValue = "Selecione um corredor";
 
   @override
   Widget build(BuildContext context) {
@@ -107,24 +107,29 @@ class _RacePageViewState extends State<RacePageView> {
                               .collection("Pontos")
                               .snapshots(),
                           builder: (context, snapshot) {
-                              List<DropdownMenuItem> pontosRegistrados = [];
-                              for (int i = 0;
-                                  i < snapshot.data!.docs.length;
-                                  i++) {
-                                DocumentSnapshot currentSnapshot =
-                                    snapshot.data!.docs[i];
-                                pontosRegistrados.add(DropdownMenuItem(
-                                  child: Text(currentSnapshot.id),
-                                  value: "${currentSnapshot.id}",
-                                )
-                                );
-                              }
+                            List<DropdownMenuItem<String>> pontosRegistrados = [];
+                            for (int i = 0;
+                                i < snapshot.data!.docs.length;
+                                i++) {
+                              DocumentSnapshot currentSnapshot =
+                                  snapshot.data!.docs[i];
+                              pontosRegistrados.add(DropdownMenuItem(
+                                child: Text(currentSnapshot.id),
+                                value: "currentSnapshot.id",
+                              ));
+                            }
                             return Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                DropdownButton(items: pontosRegistrados, onChanged: (currentValue){
-                                  setState((){pontosRegistrados = currentValue;});
-                                  })
+                                DropdownButton<String>(
+                                  value: dropdownValue,
+                                  items: pontosRegistrados,
+                                  onChanged: (String? currentValue){
+                                    setState(() {
+                                      currentValue = dropdownValue;
+                                    });
+                                  },
+                                )
                               ],
                             );
                           },
