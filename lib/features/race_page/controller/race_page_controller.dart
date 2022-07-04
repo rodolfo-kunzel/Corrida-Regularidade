@@ -12,16 +12,14 @@ abstract class _RacePageControllerBase with Store {
   void changeCurrentStop(dynamic newValue) => currentStop = newValue;
 
   @observable
-  List allStops = [].asObservable();
+  List<String> allStops = <String>[].asObservable();
 
   @action
   Future<void> allStopNames() async {
-    FirebaseFirestore.instance.collection("Pontos").get().then(
-      (value) {
-        for (var element in value.docs) {
-          allStops.add(element.id);
-        }
-      },
-    );
+    final querySnapshot =
+        await FirebaseFirestore.instance.collection("Pontos").get();
+    for (var i = 0; i < querySnapshot.docs.length; i++) {
+      allStops.add(querySnapshot.docs[i].id);
+    }
   }
 }
