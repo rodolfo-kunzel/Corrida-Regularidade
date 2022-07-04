@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:corrida_de_regulariodade_flutter/constants/app_bar_constant.dart';
 import 'package:corrida_de_regulariodade_flutter/constants/app_button.dart';
 import 'package:corrida_de_regulariodade_flutter/constants/app_constant_colors.dart';
@@ -105,43 +106,49 @@ class StopRegisterView extends StatelessWidget {
                                 color: AppConstantColors.appBlack),
                           ),
                         ),
-                        Observer(builder: (_) {
-                          return Container(
-                            height: 54,
-                            decoration: BoxDecoration(
-                                border: Border.all(),
-                                color: AppConstantColors.appWhite,
-                                borderRadius: BorderRadius.circular(15)),
-                            child: Padding(
-                              padding: const EdgeInsets.all(2.0),
-                              child: DropdownButton(
-                                style: GoogleFonts.roboto(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                    color: AppConstantColors.appBlack),
-                                iconEnabledColor: AppConstantColors.appBlack,
-                                iconDisabledColor: AppConstantColors.appBlack,
-                                isExpanded: true,
-                                items: <String>[
-                                  "SIM",
-                                  "NÃO"
-                                ].map<DropdownMenuItem<String>>((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(value,
-                                        style: GoogleFonts.roboto(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16,
-                                            color: AppConstantColors.appBlack)),
-                                  );
-                                }).toList(),
-                                onChanged: _controller.changeDropDownValue,
-                                value: _controller.dropDownValue,
-                                underline: const SizedBox(),
+                        StreamBuilder<QuerySnapshot>(
+                          stream: FirebaseFirestore.instance.collection("Pontos").snapshots(),
+                          builder: (context, snapshot) {
+                            var length = snapshot.data!.docs.length;
+                            DocumentSnapshot ds = snapshot.data!.docs[length -1];
+                            var _queryCat = snapshot.data!.docs;
+                            return Container(
+                              height: 54,
+                              decoration: BoxDecoration(
+                                  border: Border.all(),
+                                  color: AppConstantColors.appWhite,
+                                  borderRadius: BorderRadius.circular(15)),
+                              child: Padding(
+                                padding: const EdgeInsets.all(2.0),
+                                child: DropdownButton(
+                                  style: GoogleFonts.roboto(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                      color: AppConstantColors.appBlack),
+                                  iconEnabledColor: AppConstantColors.appBlack,
+                                  iconDisabledColor: AppConstantColors.appBlack,
+                                  isExpanded: true,
+                                  items: <String>[
+                                    "SIM",
+                                    "NÃO"
+                                  ].map<DropdownMenuItem<String>>((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value,
+                                          style: GoogleFonts.roboto(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
+                                              color: AppConstantColors.appBlack)),
+                                    );
+                                  }).toList(),
+                                  onChanged: _controller.changeDropDownValue,
+                                  value: _controller.dropDownValue,
+                                  underline: const SizedBox(),
+                                ),
                               ),
-                            ),
-                          );
-                        }),
+                            );
+                          }
+                        ),
                       ],
                     ),
                   ),
@@ -155,7 +162,7 @@ class StopRegisterView extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    'Início',
+                    'Pontos',
                     style: GoogleFonts.roboto(
                         fontWeight: FontWeight.bold,
                         fontSize: 24,

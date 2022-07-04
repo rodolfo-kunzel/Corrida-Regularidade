@@ -35,7 +35,7 @@ abstract class _StopRegisterControllerBase with Store {
    Future<void> stopRegister() async {
     if (isStart) {
     try {
-      await FirebaseFirestore.instance.collection("Pontos").doc().set({
+      await FirebaseFirestore.instance.collection("Pontos").doc(stopName).set({
         "Nome do Ponto": stopName,
         "Minutos após início": 0,
         "Início": isStart   
@@ -45,7 +45,7 @@ abstract class _StopRegisterControllerBase with Store {
     }
     } else {
       try {
-      await FirebaseFirestore.instance.collection("Pontos").doc().set({
+      await FirebaseFirestore.instance.collection("Pontos").doc(stopName).set({
         "Nome do Ponto": stopName,
         "Minutos após início": minutesSinceStart,
         "Início": isStart   

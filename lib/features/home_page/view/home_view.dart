@@ -11,41 +11,41 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: AppConstantColors.appOrange,
-        appBar: const PreferredSize(
-          preferredSize: Size.fromHeight(50),
-          child: AppBarConstant(
-            title: 'RESULTADO GERAL',
-          ),
+    return Scaffold(
+      backgroundColor: AppConstantColors.appOrange,
+      appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(50),
+        child: AppBarConstant(
+          title: 'RESULTADO GERAL',
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Expanded(
-                flex: 7,
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Column(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            color: Colors.amberAccent,
-                            child: const Text("hello"),
-                          ),
-                        )
-                      ],
-                    ),
-                  ],
-                ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(
+              flex: 8,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Column(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          color: Colors.amberAccent,
+                          child: const Text("hello"),
+                        ),
+                      )
+                    ],
+                  ),
+                ],
               ),
-              Expanded(
-                flex: 2,
+            ),
+            Expanded(
+              flex: 3,
+              child: SafeArea(
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -156,9 +156,9 @@ class HomeView extends StatelessWidget {
                     ),
                   ],
                 ),
-              )
-            ],
-          ),
+              ),
+            )
+          ],
         ),
       ),
     );
