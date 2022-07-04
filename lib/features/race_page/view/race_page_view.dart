@@ -75,7 +75,7 @@ class _RacePageViewState extends State<RacePageView> {
                                 color: AppConstantColors.appBlack),
                           ),
                         ),
-                      ],
+                      ], 
                     ),
                   ),
                 ],
