@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:corrida_de_regulariodade_flutter/constants/app_bar_constant.dart';
 import 'package:corrida_de_regulariodade_flutter/constants/app_constant_colors.dart';
 import 'package:corrida_de_regulariodade_flutter/features/race_page/controller/race_page_controller.dart';
@@ -5,10 +6,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class RacePageView extends StatelessWidget {
-  final _controller = RacePageController();
+class RacePageView extends StatefulWidget {
+
   RacePageView({Key? key}) : super(key: key);
 
+  @override
+  State<RacePageView> createState() => _RacePageViewState();
+}
+
+class _RacePageViewState extends State<RacePageView> {
+  var currentValue;
+  final _controller = RacePageController();
 
   @override
   Widget build(BuildContext context) {
@@ -94,43 +102,33 @@ class RacePageView extends StatelessWidget {
                                 color: AppConstantColors.appBlack),
                           ),
                         ),
-                        Observer(builder: (_) {
-                          return Container(
-                            height: 54,
-                            decoration: BoxDecoration(
-                                border: Border.all(),
-                                color: AppConstantColors.appWhite,
-                                borderRadius: BorderRadius.circular(15)),
-                            child: Padding(
-                              padding: const EdgeInsets.all(2.0),
-                              child: DropdownButton(
-                                style: GoogleFonts.roboto(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                    color: AppConstantColors.appBlack),
-                                iconEnabledColor: AppConstantColors.appBlack,
-                                iconDisabledColor: AppConstantColors.appBlack,
-                                isExpanded: true,
-                                items: <String>[
-                                  "SIM",
-                                  "NÃO"
-                                ].map<DropdownMenuItem<String>>((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(value,
-                                        style: GoogleFonts.roboto(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16,
-                                            color: AppConstantColors.appBlack)),
-                                  );
-                                }).toList(),
-                                onChanged: _controller.changeCurrentStop,
-                                value: _controller.currentStop,
-                                underline: const SizedBox(),
-                              ),
-                            ),
-                          );
-                        }),
+                        StreamBuilder<QuerySnapshot>(
+                          stream: FirebaseFirestore.instance
+                              .collection("Pontos")
+                              .snapshots(),
+                          builder: (context, snapshot) {
+                              List<DropdownMenuItem> pontosRegistrados = [];
+                              for (int i = 0;
+                                  i < snapshot.data!.docs.length;
+                                  i++) {
+                                DocumentSnapshot currentSnapshot =
+                                    snapshot.data!.docs[i];
+                                pontosRegistrados.add(DropdownMenuItem(
+                                  child: Text(currentSnapshot.id),
+                                  value: "${currentSnapshot.id}",
+                                )
+                                );
+                              }
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                DropdownButton(items: pontosRegistrados, onChanged: (currentValue){
+                                  setState((){pontosRegistrados = currentValue;});
+                                  })
+                              ],
+                            );
+                          },
+                        ),
                       ],
                     ),
                   ),
