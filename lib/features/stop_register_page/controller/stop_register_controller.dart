@@ -22,38 +22,45 @@ abstract class _StopRegisterControllerBase with Store {
   @observable
   String dropDownValue = "SIM";
 
-  @action 
+  @action
   void changeDropDownValue(dynamic newValue) => dropDownValue = newValue;
 
-  @computed 
+  @computed
   bool get allInputsValid => stopName.isNotEmpty;
 
   @computed
   bool get isStart => dropDownValue == "SIM";
 
   @action
-   Future<void> stopRegister() async {
+  Future<void> stopRegister() async {
     if (isStart) {
-    try {
-      await FirebaseFirestore.instance.collection("Pontos").doc(stopName).set({
-        "Nome do Ponto": stopName,
-        "Minutos após início": 0,
-        "Início": isStart   
-      });
-    } on FirebaseException catch (e) {
-      print(e);
-    }
+      try {
+        await FirebaseFirestore.instance
+            .collection("Pontos")
+            .doc(stopName)
+            .set({
+          "Nome do Ponto": stopName,
+          "Minutos após início": 0,
+          "Início": isStart,
+          "id": stopName,
+        });
+      } on FirebaseException catch (e) {
+        print(e);
+      }
     } else {
       try {
-      await FirebaseFirestore.instance.collection("Pontos").doc(stopName).set({
-        "Nome do Ponto": stopName,
-        "Minutos após início": minutesSinceStart,
-        "Início": isStart   
-      });
-    } on FirebaseException catch (e) {
-      print(e);
+        await FirebaseFirestore.instance
+            .collection("Pontos")
+            .doc(stopName)
+            .set({
+          "Nome do Ponto": stopName,
+          "Minutos após início": minutesSinceStart,
+          "Início": isStart,
+          "id": stopName,
+        });
+      } on FirebaseException catch (e) {
+        print(e);
+      }
     }
-    }
-
   }
 }

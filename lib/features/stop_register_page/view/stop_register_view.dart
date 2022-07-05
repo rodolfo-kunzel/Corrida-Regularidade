@@ -106,49 +106,43 @@ class StopRegisterView extends StatelessWidget {
                                 color: AppConstantColors.appBlack),
                           ),
                         ),
-                        StreamBuilder<QuerySnapshot>(
-                          stream: FirebaseFirestore.instance.collection("Pontos").snapshots(),
-                          builder: (context, snapshot) {
-                            var length = snapshot.data!.docs.length;
-                            DocumentSnapshot ds = snapshot.data!.docs[length -1];
-                            var _queryCat = snapshot.data!.docs;
-                            return Container(
-                              height: 54,
-                              decoration: BoxDecoration(
-                                  border: Border.all(),
-                                  color: AppConstantColors.appWhite,
-                                  borderRadius: BorderRadius.circular(15)),
-                              child: Padding(
-                                padding: const EdgeInsets.all(2.0),
-                                child: DropdownButton(
-                                  style: GoogleFonts.roboto(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16,
-                                      color: AppConstantColors.appBlack),
-                                  iconEnabledColor: AppConstantColors.appBlack,
-                                  iconDisabledColor: AppConstantColors.appBlack,
-                                  isExpanded: true,
-                                  items: <String>[
-                                    "SIM",
-                                    "NÃO"
-                                  ].map<DropdownMenuItem<String>>((String value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Text(value,
-                                          style: GoogleFonts.roboto(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16,
-                                              color: AppConstantColors.appBlack)),
-                                    );
-                                  }).toList(),
-                                  onChanged: _controller.changeDropDownValue,
-                                  value: _controller.dropDownValue,
-                                  underline: const SizedBox(),
-                                ),
+                        Observer(builder: (_) {
+                          return Container(
+                            height: 54,
+                            decoration: BoxDecoration(
+                                border: Border.all(),
+                                color: AppConstantColors.appWhite,
+                                borderRadius: BorderRadius.circular(15)),
+                            child: Padding(
+                              padding: const EdgeInsets.all(2.0),
+                              child: DropdownButton(
+                                style: GoogleFonts.roboto(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                    color: AppConstantColors.appBlack),
+                                iconEnabledColor: AppConstantColors.appBlack,
+                                iconDisabledColor: AppConstantColors.appBlack,
+                                isExpanded: true,
+                                items: <String>[
+                                  "SIM",
+                                  "NÃO"
+                                ].map<DropdownMenuItem<String>>((String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(value,
+                                        style: GoogleFonts.roboto(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16,
+                                            color: AppConstantColors.appBlack)),
+                                  );
+                                }).toList(),
+                                onChanged: _controller.changeDropDownValue,
+                                value: _controller.dropDownValue,
+                                underline: const SizedBox(),
                               ),
-                            );
-                          }
-                        ),
+                            ),
+                          );
+                        }),
                       ],
                     ),
                   ),
