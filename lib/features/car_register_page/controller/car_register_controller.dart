@@ -42,7 +42,8 @@ abstract class _CarRegisterControllerBase with Store {
       await FirebaseFirestore.instance.collection("Carros").doc(carNumber).set({
         "Número do Carro": carNumber,
         "Nome do Competidor": competitorName,
-        "Número do Legendário": legendaryNumber  ,  
+        "Número do Legendário": legendaryNumber,
+        "Terminou Corrida": false,  
         "id": carNumber,
       });
     } on FirebaseException catch (e) {

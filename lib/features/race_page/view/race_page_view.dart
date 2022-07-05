@@ -189,7 +189,7 @@ class _RacePageViewState extends State<RacePageView> {
                             onPressed: () =>
                                 _controller.displayTimeDialog(context,),
                             child: Text(
-                                _controller.time.toString()),
+                                "${_controller.time}"),
                           );
                         })
                       ],

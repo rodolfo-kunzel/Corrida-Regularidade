@@ -38,8 +38,9 @@ abstract class _RacePageControllerBase with Store {
   void displayTimeDialog(context) async {
     final TimeOfDay? timePicker =
      await showTimePicker(context: context, initialTime: TimeOfDay.now());
-
-     changeCarPassedThroughtTime(timePicker!);
+     if (timePicker != null) {
+      changeCarPassedThroughtTime(timePicker);
+     }
   }
 
   @action
@@ -64,6 +65,7 @@ abstract class _RacePageControllerBase with Store {
   Future<void> stopCarTimeRegister() async {
     var carPassedThroughtMinute = time.minute;
     var carPassedThroughtHour = time.hour;
+    var carPassedThroughtMinuteTime = await FirebaseFirestore.instance.collection("Pontos").doc(currentStop).get();
     await FirebaseFirestore.instance
         .collection("Carros")
         .doc(currentCar)
@@ -71,7 +73,7 @@ abstract class _RacePageControllerBase with Store {
         .doc(currentStop)
         .set({
           "Soma Minutos Feito": carPassedThroughtMinute + (carPassedThroughtHour * 60),
-          "Soma Minutos Esperado": carPassedThroughtMinute + (carPassedThroughtHour * 60),
+          "Minutos Esperado Sem Tempo de Início": int.parse(carPassedThroughtMinuteTime.data()!["Minutos após início"]),
           "Ponto": currentStop,
         });
   }

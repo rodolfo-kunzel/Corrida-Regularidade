@@ -35,7 +35,8 @@ class HomeView extends StatelessWidget {
                       Expanded(
                         child: Container(
                           color: Colors.amberAccent,
-                          child: const Text("hello"),
+                          // TODO: Lógica para Ranking
+                          // child: ListView.builder(itemBuilder: itemBuilder, itemCount: ,),
                         ),
                       )
                     ],
