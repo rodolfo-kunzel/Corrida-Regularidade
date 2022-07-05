@@ -40,7 +40,7 @@ abstract class _StopRegisterControllerBase with Store {
             .doc(stopName)
             .set({
           "Nome do Ponto": stopName,
-          "Minutos após início": 0,
+          "Minutos após início": "0",
           "Início": isStart,
           "id": stopName,
         });
