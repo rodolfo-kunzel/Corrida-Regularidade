@@ -12,12 +12,11 @@ abstract class _RacePageControllerBase with Store {
   @observable
   String currentCar = "";
 
-  @observable 
+  @observable
   TimeOfDay time = TimeOfDay.now();
 
   @action
-  void changeCarPassedThroughtTime(TimeOfDay newValue) =>
-    time = newValue;
+  void changeCarPassedThroughtTime(TimeOfDay newValue) => time = newValue;
 
   @action
   void changeCurrentStop(dynamic newValue) => currentStop = newValue;
@@ -35,12 +34,12 @@ abstract class _RacePageControllerBase with Store {
   bool get allInputsValid => currentStop != "" && currentCar != "";
 
   @action
-  void displayTimeDialog(context) async {
+  Future<void> displayTimeDialog(context) async {
     final TimeOfDay? timePicker =
-     await showTimePicker(context: context, initialTime: TimeOfDay.now());
-     if (timePicker != null) {
+        await showTimePicker(context: context, initialTime: TimeOfDay.now());
+    if (timePicker != null && time != timePicker) {
       changeCarPassedThroughtTime(timePicker);
-     }
+    }
   }
 
   @action
@@ -65,16 +64,21 @@ abstract class _RacePageControllerBase with Store {
   Future<void> stopCarTimeRegister() async {
     var carPassedThroughtMinute = time.minute;
     var carPassedThroughtHour = time.hour;
-    var carPassedThroughtMinuteTime = await FirebaseFirestore.instance.collection("Pontos").doc(currentStop).get();
+    var carPassedThroughtMinuteTime = await FirebaseFirestore.instance
+        .collection("Pontos")
+        .doc(currentStop)
+        .get();
     await FirebaseFirestore.instance
         .collection("Carros")
         .doc(currentCar)
         .collection("PontosPassados")
         .doc(currentStop)
         .set({
-          "Soma Minutos Feito": carPassedThroughtMinute + (carPassedThroughtHour * 60),
-          "Minutos Esperado Sem Tempo de Início": int.parse(carPassedThroughtMinuteTime.data()!["Minutos após início"]),
-          "Ponto": currentStop,
-        });
+      "Minutos Totais": carPassedThroughtMinute + (carPassedThroughtHour * 60),
+      "Minutos Esperados Após Saída":
+          int.parse(carPassedThroughtMinuteTime.data()!["Minutos após início"]),
+      "Início": carPassedThroughtMinuteTime.data()!["Início"],
+      "Ponto": currentStop,
+    });
   }
 }

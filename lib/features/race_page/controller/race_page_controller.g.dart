@@ -102,7 +102,7 @@ mixin _$RacePageController on _RacePageControllerBase, Store {
       context: context);
 
   @override
-  Future displayTimeDialog(dynamic context) {
+  Future<void> displayTimeDialog(dynamic context) {
     return _$displayTimeDialogAsyncAction
         .run(() => super.displayTimeDialog(context));
   }
