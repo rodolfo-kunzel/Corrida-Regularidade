@@ -41,7 +41,8 @@ abstract class _StopRegisterControllerBase with Store {
             .set({
           "Nome do Ponto": stopName,
           "Minutos após início": 0,
-          "Início": isStart
+          "Início": isStart,
+          "id": stopName,
         });
       } on FirebaseException catch (e) {
         print(e);

@@ -23,43 +23,45 @@ class _RacePageViewState extends State<RacePageView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppConstantColors.appOrange,
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Text(_controller.allStops[0]),
-        // child: Observer(
-        //   builder: (_) {
-        //     return Column(
-        //       mainAxisSize: MainAxisSize.min,
-        //       children: [
-        //         // DropdownButton(
-        //         //   style: GoogleFonts.roboto(
-        //         //       fontWeight: FontWeight.bold,
-        //         //       fontSize: 16,
-        //         //       color: AppConstantColors.appBlack),
-        //         //   iconEnabledColor: AppConstantColors.appBlack,
-        //         //   iconDisabledColor: AppConstantColors.appBlack,
-        //         //   isExpanded: true,
-        //         //   items: _controller.allStops
-        //         //       .map<DropdownMenuItem<String>>((String value) {
-        //         //     return DropdownMenuItem<String>(
-        //         //       value: value,
-        //         //       child: Text(value,
-        //         //           style: GoogleFonts.roboto(
-        //         //               fontWeight: FontWeight.bold,
-        //         //               fontSize: 16,
-        //         //               color: AppConstantColors.appBlack)),
-        //         //     );
-        //         //   }).toList(),
-        //         //   onChanged: _controller.changeCurrentStop,
-        //         //   value: _controller.currentStop,
-        //         //   underline: const SizedBox(),
-        //         // ),
-        //       ],
-        //     );
-        //   },
-        // ),
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: AppConstantColors.appOrange,
+        body: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Observer(
+            builder: (_) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  DropdownButton(
+                    style: GoogleFonts.roboto(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: AppConstantColors.appBlack),
+                    iconEnabledColor: AppConstantColors.appBlack,
+                    iconDisabledColor: AppConstantColors.appBlack,
+                    isExpanded: true,
+                    items: _controller.allStops
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value,
+                            style: GoogleFonts.roboto(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                                color: AppConstantColors.appBlack)),
+                      );
+                    }).toList(),
+                    onChanged: _controller.changeCurrentStop,
+                    underline: const SizedBox(),
+                    hint: const Text("Selecione um Ponto"),
+                    value: _controller.currentStop == "" ? null : _controller.currentStop,
+                  ),
+                ],
+              );
+            },
+          ),
+        ),
       ),
     );
   }
