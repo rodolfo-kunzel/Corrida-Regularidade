@@ -39,10 +39,11 @@ abstract class _CarRegisterControllerBase with Store {
   @action
   Future<void> registerCar() async {
     try {
-      await FirebaseFirestore.instance.collection("Carros").doc().set({
+      await FirebaseFirestore.instance.collection("Carros").doc(carNumber).set({
         "Número do Carro": carNumber,
         "Nome do Competidor": competitorName,
-        "Número do Legendário": legendaryNumber    
+        "Número do Legendário": legendaryNumber  ,  
+        "id": carNumber,
       });
     } on FirebaseException catch (e) {
       print(e);

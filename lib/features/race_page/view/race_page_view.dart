@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../constants/app_button.dart';
+
 class RacePageView extends StatefulWidget {
   const RacePageView({Key? key}) : super(key: key);
 
@@ -18,49 +20,205 @@ class _RacePageViewState extends State<RacePageView> {
   @override
   void initState() {
     _controller.allStopNames();
+    _controller.allCarNames();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: AppConstantColors.appOrange,
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Observer(
-            builder: (_) {
-              return Column(
-                mainAxisSize: MainAxisSize.min,
+    return Scaffold(
+      appBar: const PreferredSize(
+        preferredSize: Size.fromHeight(50),
+        child: AppBarConstant(title: 'REGISTRO DE PONTO'),
+      ),
+      backgroundColor: AppConstantColors.appOrange,
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(
+              flex: 6,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  DropdownButton(
-                    style: GoogleFonts.roboto(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                        color: AppConstantColors.appBlack),
-                    iconEnabledColor: AppConstantColors.appBlack,
-                    iconDisabledColor: AppConstantColors.appBlack,
-                    isExpanded: true,
-                    items: _controller.allStops
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value,
+                  Container(
+                    constraints: const BoxConstraints(maxWidth: 300),
+                    child: Column(
+                      children: [
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Nome do Ponto',
                             style: GoogleFonts.roboto(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
-                                color: AppConstantColors.appBlack)),
-                      );
-                    }).toList(),
-                    onChanged: _controller.changeCurrentStop,
-                    underline: const SizedBox(),
-                    hint: const Text("Selecione um Ponto"),
-                    value: _controller.currentStop == "" ? null : _controller.currentStop,
+                                color: AppConstantColors.appBlack),
+                          ),
+                        ),
+                        Container(
+                          height: 54,
+                          decoration: BoxDecoration(
+                              border: Border.all(),
+                              color: AppConstantColors.appWhite,
+                              borderRadius: BorderRadius.circular(15)),
+                          child: Padding(
+                            padding: const EdgeInsets.all(2.0),
+                            child: Observer(builder: (_) {
+                              return DropdownButton(
+                                style: GoogleFonts.roboto(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                    color: AppConstantColors.appBlack),
+                                iconEnabledColor: AppConstantColors.appBlack,
+                                iconDisabledColor: AppConstantColors.appBlack,
+                                isExpanded: true,
+                                items: _controller.allStops
+                                    .map<DropdownMenuItem<String>>(
+                                        (String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(value,
+                                        style: GoogleFonts.roboto(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16,
+                                            color: AppConstantColors.appBlack)),
+                                  );
+                                }).toList(),
+                                onChanged: _controller.changeCurrentStop,
+                                underline: const SizedBox(),
+                                hint: const Text("Selecione um Ponto"),
+                                value: _controller.currentStop == ""
+                                    ? null
+                                    : _controller.currentStop,
+                              );
+                            }),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
-              );
-            },
-          ),
+              ),
+            ),
+            Expanded(
+              flex: 6,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    constraints: const BoxConstraints(maxWidth: 300),
+                    child: Column(
+                      children: [
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Número do Carro',
+                            style: GoogleFonts.roboto(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                                color: AppConstantColors.appBlack),
+                          ),
+                        ),
+                        Container(
+                          height: 54,
+                          decoration: BoxDecoration(
+                              border: Border.all(),
+                              color: AppConstantColors.appWhite,
+                              borderRadius: BorderRadius.circular(15)),
+                          child: Padding(
+                            padding: const EdgeInsets.all(2.0),
+                            child: Observer(builder: (_) {
+                              return DropdownButton(
+                                style: GoogleFonts.roboto(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                    color: AppConstantColors.appBlack),
+                                iconEnabledColor: AppConstantColors.appBlack,
+                                iconDisabledColor: AppConstantColors.appBlack,
+                                isExpanded: true,
+                                items: _controller.allCars
+                                    .map<DropdownMenuItem<String>>(
+                                        (String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(value,
+                                        style: GoogleFonts.roboto(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16,
+                                            color: AppConstantColors.appBlack)),
+                                  );
+                                }).toList(),
+                                onChanged: _controller.changeCurrentCar,
+                                underline: const SizedBox(),
+                                hint: const Text("Selecione um Carro"),
+                                value: _controller.currentCar == ""
+                                    ? null
+                                    : _controller.currentCar,
+                              );
+                            }),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              flex: 6,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    constraints: const BoxConstraints(maxWidth: 300),
+                    child: Column(
+                      children: [
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Horário',
+                            style: GoogleFonts.roboto(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                                color: AppConstantColors.appBlack),
+                          ),
+                        ),
+                        Observer(builder: (_) {
+                          return ElevatedButton(
+                            onPressed: () =>
+                                _controller.displayTimeDialog(context,),
+                            child: Text(
+                                _controller.time.toString()),
+                          );
+                        })
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(
+              flex: 8,
+              child: Observer(
+                builder: (_) {
+                  return AppButton(
+                    onTap: () {
+                      _controller.allInputsValid
+                          ? _controller.stopCarTimeRegister()
+                          : null;
+                    },
+                    bottonBackgroud: _controller.allInputsValid
+                        ? AppConstantColors.appBlack
+                        : AppConstantColors.appFadedBlack,
+                    bottonTextColor: _controller.allInputsValid
+                        ? AppConstantColors.appOrange
+                        : AppConstantColors.appFadedOrange,
+                  );
+                },
+              ),
+            )
+          ],
         ),
       ),
     );
