@@ -6,49 +6,35 @@ class HomeController = _HomeControllerBase with _$HomeController;
 
 abstract class _HomeControllerBase with Store {
   @observable
-  String currentStop = "";
-
-  @observable
-  String currentCar = "";
-
-  @observable
-  int currentCarPoint = 0;
-
-  @observable
-  List<String> allCars = <String>[].asObservable();
-
-  @observable
-  List<String> allStops = <String>[].asObservable();
+  List<Map<String, String>> allCarInformation =
+      <Map<String, String>>[].asObservable();
 
   @action
-  Future<void> allCarNames() async {
-    final queryCarSnapshot =
-        await FirebaseFirestore.instance.collection("Carros").get();
-    for (var i = 0; i < queryCarSnapshot.docs.length; i++) {
-      allCars.add(queryCarSnapshot.docs[i].id);
-    }
-  }
-
-  @action
-  Future<void> allStopNames() async {
-    final querySnapshot =
+  Future<void> getAllCarInformation() async {
+    var totalStops =
         await FirebaseFirestore.instance.collection("Pontos").get();
+    var totalStopsCount = totalStops.docs.length;
+    final querySnapshot =
+        await FirebaseFirestore.instance.collection("Carros").get();
     for (var i = 0; i < querySnapshot.docs.length; i++) {
-      allStops.add(querySnapshot.docs[i].id);
-    }
-  }
-
-  @action
-  Future<void> registerCurrentCarPoints() async {
-    for (var i = 0; i < allCars.length; i++) {
-      currentCar = allCars[i];
-      for (var y = 0; y < allStops.length; y++) {
-        currentStop = allStops[y];
-        FirebaseFirestore.instance
-            .collection("Carros")
-            .doc(currentCar)
-            .collection("PontosPassados")
-            .doc(currentStop);
+      var totalCurrentCarScore = 0;
+      var querySnapShotCurrentDocument = await FirebaseFirestore.instance
+          .collection("Carros")
+          .doc(querySnapshot.docs[i].id)
+          .collection("PontosPassados")
+          .get();
+      if (querySnapShotCurrentDocument.docs.length == totalStopsCount) {
+        for (var j = 0; j < querySnapShotCurrentDocument.docs.length; j++) {
+          final int currentCarSelectedStopScore =
+              await querySnapShotCurrentDocument.docs[j].data()["Pontos"];
+          totalCurrentCarScore += currentCarSelectedStopScore;
+        }
+        allCarInformation.add(
+          {
+            "Nome": querySnapshot.docs[i].id,
+            "Score": totalCurrentCarScore.toString(),
+          },
+        );
       }
     }
   }

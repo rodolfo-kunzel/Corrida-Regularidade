@@ -80,5 +80,36 @@ abstract class _RacePageControllerBase with Store {
       "Início": carPassedThroughtMinuteTime.data()!["Início"],
       "Ponto": currentStop,
     });
+    if (carPassedThroughtMinuteTime.data()!["Início"] == true) {
+      FirebaseFirestore.instance.collection("Carros").doc(currentCar).update({
+        "Minutos de Início":
+            carPassedThroughtMinute + (carPassedThroughtHour * 60),
+      });
+      FirebaseFirestore.instance
+          .collection("Carros")
+          .doc(currentCar)
+          .collection("PontosPassados")
+          .doc(currentStop)
+          .update({"Pontos": 0});
+    } else {
+      var currentCarDocument = await FirebaseFirestore.instance
+          .collection("Carros")
+          .doc(currentCar)
+          .get();
+      var initTimeCurrentCarDocument =
+          await currentCarDocument.data()!["Minutos de Início"];
+      var currentStopTime =
+          carPassedThroughtMinute + (carPassedThroughtHour * 60);
+      FirebaseFirestore.instance
+          .collection("Carros")
+          .doc(currentCar)
+          .collection("PontosPassados")
+          .doc(currentStop)
+          .update({
+        "Pontos": (currentStopTime - initTimeCurrentCarDocument) -
+            int.parse(
+                carPassedThroughtMinuteTime.data()!["Minutos após início"]),
+      });
+    }
   }
 }

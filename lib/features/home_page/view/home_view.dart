@@ -1,13 +1,27 @@
 import 'package:corrida_de_regulariodade_flutter/constants/app_bar_constant.dart';
 import 'package:corrida_de_regulariodade_flutter/constants/app_constant_colors.dart';
 import 'package:corrida_de_regulariodade_flutter/features/car_register_page/view/car_register_view.dart';
+import 'package:corrida_de_regulariodade_flutter/features/home_page/controller/home_controller.dart';
 import 'package:corrida_de_regulariodade_flutter/features/race_page/view/race_page_view.dart';
 import 'package:corrida_de_regulariodade_flutter/features/stop_register_page/view/stop_register_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
   HomeView({Key? key}) : super(key: key);
+
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
+  final _controller = HomeController();
+  @override
+  void initState() {
+    _controller.getAllCarInformation();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,19 +44,36 @@ class HomeView extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Column(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          color: Colors.amberAccent,
-                          child: ListView.builder(
-                            itemBuilder: (context, index) {
-                              return ListTile();
-                            },
-                          ),
-                        ),
-                      )
-                    ],
+                  Expanded(
+                    child: Column(
+                      children: [
+                        Observer(builder: (_) {
+                          return Container(
+                            color: Colors.transparent,
+                            child: _controller.allCarInformation.isNotEmpty
+                                ? ListView.builder(
+                                    shrinkWrap: true,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    itemCount:
+                                        _controller.allCarInformation.length,
+                                    itemBuilder: (context, index) {
+                                      return ListTile(
+                                        title: Text(_controller
+                                            .allCarInformation[index]["Nome"]!),
+                                        trailing: Text(
+                                            _controller.allCarInformation[index]
+                                                ["Score"]!),
+                                      );
+                                    },
+                                  )
+                                : const Center(
+                                    child: Text(
+                                        "Nenhum Carro Terminou a Corrida")),
+                          );
+                        })
+                      ],
+                    ),
                   ),
                 ],
               ),
