@@ -186,10 +186,10 @@ class _RacePageViewState extends State<RacePageView> {
                         ),
                         Observer(builder: (_) {
                           return ElevatedButton(
-                            onPressed: () =>
-                                _controller.displayTimeDialog(context,),
-                            child: Text(
-                                "${_controller.time}"),
+                            onPressed: () => _controller.displayTimeDialog(
+                              context,
+                            ),
+                            child: Text("${_controller.currentTime}"),
                           );
                         })
                       ],

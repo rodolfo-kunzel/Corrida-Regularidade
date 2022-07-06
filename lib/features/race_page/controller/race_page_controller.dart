@@ -10,6 +10,9 @@ abstract class _RacePageControllerBase with Store {
   String currentStop = "";
 
   @observable
+  DateTime currentTime = DateTime.now();
+
+  @observable
   String currentCar = "";
 
   @observable
