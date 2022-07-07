@@ -1,7 +1,5 @@
 import 'package:corrida_de_regulariodade_flutter/constants/app_constant_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class AppDialog extends StatelessWidget {
   final String text;

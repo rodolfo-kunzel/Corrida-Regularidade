@@ -19,7 +19,7 @@ abstract class _HomeControllerBase with Store {
     final querySnapshot =
         await FirebaseFirestore.instance.collection("Carros").get();
     for (var i = 0; i < querySnapshot.docs.length; i++) {
-      var totalCurrentCarScore = 0;
+      double totalCurrentCarScore = 0;
       var querySnapShotCurrentDocument = await FirebaseFirestore.instance
           .collection("Carros")
           .doc(querySnapshot.docs[i].id)
@@ -27,20 +27,22 @@ abstract class _HomeControllerBase with Store {
           .get();
       if (querySnapShotCurrentDocument.docs.length == totalStopsCount) {
         for (var j = 0; j < querySnapShotCurrentDocument.docs.length; j++) {
-          final int currentCarSelectedStopScore =
+          final currentCarSelectedStopScore =
               await querySnapShotCurrentDocument.docs[j].data()["Pontos"];
           totalCurrentCarScore += currentCarSelectedStopScore;
         }
         debugPrint(allCarInformation.toString());
-        allCarInformation.toString().contains("Nome: ${querySnapshot.docs[i].id}, Score: ${totalCurrentCarScore.toString()}")? null :
-        allCarInformation.add(
-          {
-            "Nome": querySnapshot.docs[i].id,
-            "Score": totalCurrentCarScore,
-          },
-        );
+        allCarInformation.toString().contains(
+                "Nome: ${querySnapshot.docs[i].id}, Score: ${totalCurrentCarScore.toString()}")
+            ? null
+            : allCarInformation.add(
+                {
+                  "Nome": querySnapshot.docs[i].id,
+                  "Score": totalCurrentCarScore,
+                },
+              );
       }
     }
-    allCarInformation.sort((a, b) => (b["Score"]!).compareTo(a["Score"]!)); 
+    allCarInformation.sort((a, b) => (b["Score"]!).compareTo(a["Score"]!));
   }
 }

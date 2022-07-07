@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:corrida_de_regulariodade_flutter/constants/app_bar_constant.dart';
 import 'package:corrida_de_regulariodade_flutter/constants/app_constant_colors.dart';
 import 'package:corrida_de_regulariodade_flutter/constants/app_dialog.dart';
@@ -5,6 +6,7 @@ import 'package:corrida_de_regulariodade_flutter/features/race_page/controller/r
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
 import '../../../constants/app_button.dart';
 
@@ -22,6 +24,8 @@ class _RacePageViewState extends State<RacePageView> {
   void initState() {
     _controller.allStopNames();
     _controller.allCarNames();
+    Timer.periodic(
+        const Duration(seconds: 1), (Timer t) => _controller.timeUpdated());
     super.initState();
   }
 
@@ -30,7 +34,7 @@ class _RacePageViewState extends State<RacePageView> {
     return Scaffold(
       appBar: const PreferredSize(
         preferredSize: Size.fromHeight(50),
-        child: AppBarConstant(title: 'REGISTRO DE PONTO'),
+        child: AppBarConstant(title: 'REGISTRO DA CORRIDA'),
       ),
       backgroundColor: AppConstantColors.appOrange,
       body: Padding(
@@ -185,18 +189,25 @@ class _RacePageViewState extends State<RacePageView> {
                                 color: AppConstantColors.appBlack),
                           ),
                         ),
-                        Observer(builder: (_) {
-                          return ElevatedButton(
-                              onPressed: () => _controller.displayTimeDialog(
-                                    context,
-                                  ),
+                        Observer(
+                          builder: (_) {
+                            return ElevatedButton(
+                              onPressed: () {},
                               child: Text(
-                                _controller.time
-                                    .toString()
-                                    .replaceAll("TimeOfDay(", "")
-                                    .replaceAll(")", ""),
-                              ));
-                        })
+                                DateFormat(
+                                  'HH:mm:ss',
+                                ).format(_controller.currentTime),
+                                style: TextStyle(
+                                    color: AppConstantColors.appOrange,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 22),
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                primary: AppConstantColors.appBlack,
+                              ),
+                            );
+                          },
+                        ),
                       ],
                     ),
                   ),

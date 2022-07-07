@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
@@ -10,13 +12,19 @@ abstract class _RacePageControllerBase with Store {
   String currentStop = "";
 
   @observable
-  DateTime currentTime = DateTime.now();
-
-  @observable
   String currentCar = "";
 
   @observable
   TimeOfDay time = TimeOfDay.now();
+
+  @observable
+  DateTime currentTime = DateTime.now();
+
+  @action
+  DateTime timeUpdated() {
+    currentTime = DateTime.now();
+    return currentTime;
+  }
 
   @action
   void changeCarPassedThroughtTime(TimeOfDay newValue) => time = newValue;
@@ -35,15 +43,6 @@ abstract class _RacePageControllerBase with Store {
 
   @computed
   bool get allInputsValid => currentStop != "" && currentCar != "";
-
-  @action
-  Future<void> displayTimeDialog(context) async {
-    final TimeOfDay? timePicker =
-        await showTimePicker(context: context, initialTime: TimeOfDay.now());
-    if (timePicker != null && time != timePicker) {
-      changeCarPassedThroughtTime(timePicker);
-    }
-  }
 
   @action
   Future<void> allStopNames() async {
@@ -65,8 +64,9 @@ abstract class _RacePageControllerBase with Store {
 
   @action
   Future<void> stopCarTimeRegister() async {
-    var carPassedThroughtMinute = time.minute;
-    var carPassedThroughtHour = time.hour;
+    var carPassedThroughtSecond = currentTime.second;
+    var carPassedThroughtMinute = currentTime.minute;
+    var carPassedThroughtHour = currentTime.hour;
     var carPassedThroughtMinuteTime = await FirebaseFirestore.instance
         .collection("Pontos")
         .doc(currentStop)
@@ -77,7 +77,9 @@ abstract class _RacePageControllerBase with Store {
         .collection("PontosPassados")
         .doc(currentStop)
         .set({
-      "Minutos Totais": carPassedThroughtMinute + (carPassedThroughtHour * 60),
+      "Minutos Totais": carPassedThroughtMinute +
+          (carPassedThroughtHour * 60) +
+          (carPassedThroughtSecond / 60),
       "Minutos Esperados Após Saída":
           int.parse(carPassedThroughtMinuteTime.data()!["Minutos após início"]),
       "Início": carPassedThroughtMinuteTime.data()!["Início"],
@@ -101,22 +103,29 @@ abstract class _RacePageControllerBase with Store {
           .get();
       var initTimeCurrentCarDocument =
           await currentCarDocument.data()!["Minutos de Início"];
-      var currentStopTime =
-          carPassedThroughtMinute + (carPassedThroughtHour * 60);
+      var currentStopTime = carPassedThroughtMinute +
+          (carPassedThroughtHour * 60) +
+          (carPassedThroughtSecond / 60);
       FirebaseFirestore.instance
           .collection("Carros")
           .doc(currentCar)
           .collection("PontosPassados")
           .doc(currentStop)
-          .update({
-        "Pontos": ((currentStopTime - initTimeCurrentCarDocument) -
-            int.parse(
-                carPassedThroughtMinuteTime.data()!["Minutos após início"])) > 0 ? ((currentStopTime - initTimeCurrentCarDocument) -
-            int.parse(
-                carPassedThroughtMinuteTime.data()!["Minutos após início"]))*-1 : ((currentStopTime - initTimeCurrentCarDocument) -
-            int.parse(
-                carPassedThroughtMinuteTime.data()!["Minutos após início"])),
-      });
+          .update(
+        {
+          "Pontos": ((currentStopTime - initTimeCurrentCarDocument) -
+                      double.parse(carPassedThroughtMinuteTime
+                          .data()!["Minutos após início"])) >
+                  0
+              ? ((currentStopTime - initTimeCurrentCarDocument) -
+                      double.parse(carPassedThroughtMinuteTime
+                          .data()!["Minutos após início"])) *
+                  -1
+              : ((currentStopTime - initTimeCurrentCarDocument) -
+                  double.parse(carPassedThroughtMinuteTime
+                      .data()!["Minutos após início"])),
+        },
+      );
     }
   }
 }
