@@ -33,22 +33,6 @@ mixin _$RacePageController on _RacePageControllerBase, Store {
     });
   }
 
-  late final _$currentTimeAtom =
-      Atom(name: '_RacePageControllerBase.currentTime', context: context);
-
-  @override
-  DateTime get currentTime {
-    _$currentTimeAtom.reportRead();
-    return super.currentTime;
-  }
-
-  @override
-  set currentTime(DateTime value) {
-    _$currentTimeAtom.reportWrite(value, super.currentTime, () {
-      super.currentTime = value;
-    });
-  }
-
   late final _$currentCarAtom =
       Atom(name: '_RacePageControllerBase.currentCar', context: context);
 
@@ -78,6 +62,22 @@ mixin _$RacePageController on _RacePageControllerBase, Store {
   set time(TimeOfDay value) {
     _$timeAtom.reportWrite(value, super.time, () {
       super.time = value;
+    });
+  }
+
+  late final _$currentTimeAtom =
+      Atom(name: '_RacePageControllerBase.currentTime', context: context);
+
+  @override
+  DateTime get currentTime {
+    _$currentTimeAtom.reportRead();
+    return super.currentTime;
+  }
+
+  @override
+  set currentTime(DateTime value) {
+    _$currentTimeAtom.reportWrite(value, super.currentTime, () {
+      super.currentTime = value;
     });
   }
 
@@ -113,16 +113,6 @@ mixin _$RacePageController on _RacePageControllerBase, Store {
     });
   }
 
-  late final _$displayTimeDialogAsyncAction = AsyncAction(
-      '_RacePageControllerBase.displayTimeDialog',
-      context: context);
-
-  @override
-  Future<void> displayTimeDialog(dynamic context) {
-    return _$displayTimeDialogAsyncAction
-        .run(() => super.displayTimeDialog(context));
-  }
-
   late final _$allStopNamesAsyncAction =
       AsyncAction('_RacePageControllerBase.allStopNames', context: context);
 
@@ -151,6 +141,17 @@ mixin _$RacePageController on _RacePageControllerBase, Store {
 
   late final _$_RacePageControllerBaseActionController =
       ActionController(name: '_RacePageControllerBase', context: context);
+
+  @override
+  DateTime timeUpdated() {
+    final _$actionInfo = _$_RacePageControllerBaseActionController.startAction(
+        name: '_RacePageControllerBase.timeUpdated');
+    try {
+      return super.timeUpdated();
+    } finally {
+      _$_RacePageControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   void changeCarPassedThroughtTime(TimeOfDay newValue) {
@@ -189,9 +190,9 @@ mixin _$RacePageController on _RacePageControllerBase, Store {
   String toString() {
     return '''
 currentStop: ${currentStop},
-currentTime: ${currentTime},
 currentCar: ${currentCar},
 time: ${time},
+currentTime: ${currentTime},
 allStops: ${allStops},
 allCars: ${allCars},
 allInputsValid: ${allInputsValid}
