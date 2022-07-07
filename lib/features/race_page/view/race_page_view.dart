@@ -34,7 +34,7 @@ class _RacePageViewState extends State<RacePageView> {
     return Scaffold(
       appBar: const PreferredSize(
         preferredSize: Size.fromHeight(50),
-        child: AppBarConstant(title: 'REGISTRO DE PONTO'),
+        child: AppBarConstant(title: 'REGISTRO DA CORRIDA'),
       ),
       backgroundColor: AppConstantColors.appOrange,
       body: Padding(
@@ -193,8 +193,18 @@ class _RacePageViewState extends State<RacePageView> {
                           builder: (_) {
                             return ElevatedButton(
                               onPressed: () {},
-                              child: Text(DateFormat('HH:mm:ss')
-                                  .format(_controller.currentTime)),
+                              child: Text(
+                                DateFormat(
+                                  'HH:mm:ss',
+                                ).format(_controller.currentTime),
+                                style: TextStyle(
+                                    color: AppConstantColors.appOrange,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 22),
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                primary: AppConstantColors.appBlack,
+                              ),
                             );
                           },
                         ),
