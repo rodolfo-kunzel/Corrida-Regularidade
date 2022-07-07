@@ -1,6 +1,7 @@
 import 'package:corrida_de_regulariodade_flutter/constants/app_bar_constant.dart';
 import 'package:corrida_de_regulariodade_flutter/constants/app_button.dart';
 import 'package:corrida_de_regulariodade_flutter/constants/app_constant_colors.dart';
+import 'package:corrida_de_regulariodade_flutter/constants/app_dialog.dart';
 import 'package:corrida_de_regulariodade_flutter/constants/app_textfield.dart';
 import 'package:corrida_de_regulariodade_flutter/features/stop_register_page/controller/stop_register_controller.dart';
 import 'package:flutter/material.dart';
@@ -170,7 +171,23 @@ class StopRegisterView extends StatelessWidget {
                   child: AppButton(
                     onTap: () {
                       _controller.allInputsValid
-                          ? _controller.stopRegister()
+                          ? showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AppDialog(
+                                  text: "Você confirma o registro do ponto?",
+                                  leftButtonTitle: "Não",
+                                  rightButtonTitle: "Sim",
+                                  leftButtonAction: () {
+                                    Navigator.pop(context);
+                                  },
+                                  rightButtonAction: () async {
+                                    await _controller.stopRegister();
+                                    Navigator.pop(context);
+                                    Navigator.pop(context);
+                                  },
+                                );
+                              })
                           : null;
                     },
                     bottonBackgroud: _controller.allInputsValid

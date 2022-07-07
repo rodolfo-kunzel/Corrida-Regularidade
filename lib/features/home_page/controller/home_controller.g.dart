@@ -13,13 +13,13 @@ mixin _$HomeController on _HomeControllerBase, Store {
       Atom(name: '_HomeControllerBase.allCarInformation', context: context);
 
   @override
-  List<Map<String, String>> get allCarInformation {
+  List<Map<String, dynamic>> get allCarInformation {
     _$allCarInformationAtom.reportRead();
     return super.allCarInformation;
   }
 
   @override
-  set allCarInformation(List<Map<String, String>> value) {
+  set allCarInformation(List<Map<String, dynamic>> value) {
     _$allCarInformationAtom.reportWrite(value, super.allCarInformation, () {
       super.allCarInformation = value;
     });

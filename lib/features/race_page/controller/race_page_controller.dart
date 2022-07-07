@@ -109,9 +109,13 @@ abstract class _RacePageControllerBase with Store {
           .collection("PontosPassados")
           .doc(currentStop)
           .update({
-        "Pontos": (currentStopTime - initTimeCurrentCarDocument) -
+        "Pontos": ((currentStopTime - initTimeCurrentCarDocument) -
             int.parse(
-                carPassedThroughtMinuteTime.data()!["Minutos após início"]),
+                carPassedThroughtMinuteTime.data()!["Minutos após início"])) > 0 ? ((currentStopTime - initTimeCurrentCarDocument) -
+            int.parse(
+                carPassedThroughtMinuteTime.data()!["Minutos após início"]))*-1 : ((currentStopTime - initTimeCurrentCarDocument) -
+            int.parse(
+                carPassedThroughtMinuteTime.data()!["Minutos após início"])),
       });
     }
   }

@@ -33,6 +33,22 @@ mixin _$RacePageController on _RacePageControllerBase, Store {
     });
   }
 
+  late final _$currentTimeAtom =
+      Atom(name: '_RacePageControllerBase.currentTime', context: context);
+
+  @override
+  DateTime get currentTime {
+    _$currentTimeAtom.reportRead();
+    return super.currentTime;
+  }
+
+  @override
+  set currentTime(DateTime value) {
+    _$currentTimeAtom.reportWrite(value, super.currentTime, () {
+      super.currentTime = value;
+    });
+  }
+
   late final _$currentCarAtom =
       Atom(name: '_RacePageControllerBase.currentCar', context: context);
 
@@ -173,6 +189,7 @@ mixin _$RacePageController on _RacePageControllerBase, Store {
   String toString() {
     return '''
 currentStop: ${currentStop},
+currentTime: ${currentTime},
 currentCar: ${currentCar},
 time: ${time},
 allStops: ${allStops},

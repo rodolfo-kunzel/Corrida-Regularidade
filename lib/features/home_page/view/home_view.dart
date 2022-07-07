@@ -9,7 +9,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HomeView extends StatefulWidget {
-  HomeView({Key? key}) : super(key: key);
+  const HomeView({Key? key}) : super(key: key);
 
   @override
   State<HomeView> createState() => _HomeViewState();
@@ -47,23 +47,72 @@ class _HomeViewState extends State<HomeView> {
                   Expanded(
                     child: Column(
                       children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  InkWell(child: Icon(Icons.refresh_rounded, color: AppConstantColors.appBlack,), onTap: (){
+                                    _controller.getAllCarInformation();
+                                  },)
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: const [
+                                  Text(
+                                    "POSIÇÃO",
+                                    style: TextStyle(
+                                        fontSize: 20, fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    "CARRO",
+                                    style: TextStyle(
+                                        fontSize: 20, fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    "PONTOS",
+                                    style: TextStyle(
+                                        fontSize: 20, fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
                         Observer(builder: (_) {
                           return Container(
                             color: Colors.transparent,
                             child: _controller.allCarInformation.isNotEmpty
                                 ? ListView.builder(
                                     shrinkWrap: true,
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
                                     itemCount:
                                         _controller.allCarInformation.length,
                                     itemBuilder: (context, index) {
                                       return ListTile(
-                                        title: Text(_controller
-                                            .allCarInformation[index]["Nome"]!),
+                                        leading: Text(
+                                          (index + 1).toString(),
+                                          style: const TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        title: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(_controller
+                                                    .allCarInformation[index]
+                                                ["Nome"]!),
+                                          ],
+                                        ),
                                         trailing: Text(
                                             _controller.allCarInformation[index]
-                                                ["Score"]!),
+                                                ["Score"]!.toString()),
                                       );
                                     },
                                   )
@@ -128,7 +177,7 @@ class _HomeViewState extends State<HomeView> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => RacePageView()));
+                                    builder: (context) => const RacePageView()));
                           },
                           child: Container(
                             constraints: const BoxConstraints.expand(),

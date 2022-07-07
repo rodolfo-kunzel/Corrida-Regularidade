@@ -1,6 +1,7 @@
 import 'package:corrida_de_regulariodade_flutter/constants/app_bar_constant.dart';
 import 'package:corrida_de_regulariodade_flutter/constants/app_button.dart';
 import 'package:corrida_de_regulariodade_flutter/constants/app_constant_colors.dart';
+import 'package:corrida_de_regulariodade_flutter/constants/app_dialog.dart';
 import 'package:corrida_de_regulariodade_flutter/constants/app_textfield.dart';
 import 'package:corrida_de_regulariodade_flutter/features/car_register_page/controller/car_register_controller.dart';
 import 'package:flutter/material.dart';
@@ -139,7 +140,23 @@ class CarRegisterView extends StatelessWidget {
                   flex: 8,
                   child: AppButton(
                     onTap: () {
-                      _controller.allInputsValid ? _controller.registerCar() : null;
+                      _controller.allInputsValid ? showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AppDialog(
+                                  text: "Você confirma o registro do carro?",
+                                  leftButtonTitle: "Não",
+                                  rightButtonTitle: "Sim",
+                                  leftButtonAction: () {
+                                    Navigator.pop(context);
+                                  },
+                                  rightButtonAction: () async {
+                                    await _controller.registerCar();
+                                    Navigator.pop(context);
+                                    Navigator.pop(context);
+                                  },
+                                );
+                              }) : null;
                     },
                     bottonBackgroud: _controller.allInputsValid
                         ? AppConstantColors.appBlack
