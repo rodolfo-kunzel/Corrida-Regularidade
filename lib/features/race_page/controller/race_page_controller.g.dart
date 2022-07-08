@@ -113,6 +113,59 @@ mixin _$RacePageController on _RacePageControllerBase, Store {
     });
   }
 
+  late final _$currentCarHasStartedAtom = Atom(
+      name: '_RacePageControllerBase.currentCarHasStarted', context: context);
+
+  @override
+  bool get currentCarHasStarted {
+    _$currentCarHasStartedAtom.reportRead();
+    return super.currentCarHasStarted;
+  }
+
+  @override
+  set currentCarHasStarted(bool value) {
+    _$currentCarHasStartedAtom.reportWrite(value, super.currentCarHasStarted,
+        () {
+      super.currentCarHasStarted = value;
+    });
+  }
+
+  late final _$isCurrentPointStartAtom = Atom(
+      name: '_RacePageControllerBase.isCurrentPointStart', context: context);
+
+  @override
+  bool get isCurrentPointStart {
+    _$isCurrentPointStartAtom.reportRead();
+    return super.isCurrentPointStart;
+  }
+
+  @override
+  set isCurrentPointStart(bool value) {
+    _$isCurrentPointStartAtom.reportWrite(value, super.isCurrentPointStart, () {
+      super.isCurrentPointStart = value;
+    });
+  }
+
+  late final _$getStatusCurrentCarAsyncAction = AsyncAction(
+      '_RacePageControllerBase.getStatusCurrentCar',
+      context: context);
+
+  @override
+  Future<void> getStatusCurrentCar() {
+    return _$getStatusCurrentCarAsyncAction
+        .run(() => super.getStatusCurrentCar());
+  }
+
+  late final _$getStatusCurrentStopAsyncAction = AsyncAction(
+      '_RacePageControllerBase.getStatusCurrentStop',
+      context: context);
+
+  @override
+  Future<void> getStatusCurrentStop() {
+    return _$getStatusCurrentStopAsyncAction
+        .run(() => super.getStatusCurrentStop());
+  }
+
   late final _$allStopNamesAsyncAction =
       AsyncAction('_RacePageControllerBase.allStopNames', context: context);
 
@@ -187,6 +240,28 @@ mixin _$RacePageController on _RacePageControllerBase, Store {
   }
 
   @override
+  void changeCurrentCarStartStatus() {
+    final _$actionInfo = _$_RacePageControllerBaseActionController.startAction(
+        name: '_RacePageControllerBase.changeCurrentCarStartStatus');
+    try {
+      return super.changeCurrentCarStartStatus();
+    } finally {
+      _$_RacePageControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void changeIsCurrentPointStart() {
+    final _$actionInfo = _$_RacePageControllerBaseActionController.startAction(
+        name: '_RacePageControllerBase.changeIsCurrentPointStart');
+    try {
+      return super.changeIsCurrentPointStart();
+    } finally {
+      _$_RacePageControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 currentStop: ${currentStop},
@@ -195,6 +270,8 @@ time: ${time},
 currentTime: ${currentTime},
 allStops: ${allStops},
 allCars: ${allCars},
+currentCarHasStarted: ${currentCarHasStarted},
+isCurrentPointStart: ${isCurrentPointStart},
 allInputsValid: ${allInputsValid}
     ''';
   }
