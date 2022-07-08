@@ -38,7 +38,8 @@ abstract class _HomeControllerBase with Store {
             : allCarInformation.add(
                 {
                   "Nome": querySnapshot.docs[i].id,
-                  "Score": totalCurrentCarScore,
+                  "Score":
+                      double.parse((totalCurrentCarScore).toStringAsFixed(2)),
                 },
               );
       }
