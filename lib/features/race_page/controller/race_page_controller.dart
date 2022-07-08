@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
@@ -43,6 +42,44 @@ abstract class _RacePageControllerBase with Store {
 
   @computed
   bool get allInputsValid => currentStop != "" && currentCar != "";
+
+  @observable
+  bool currentCarHasStarted = false;
+
+  @observable
+  bool isCurrentPointStart = false;
+
+  @action
+  void changeCurrentCarStartStatus() {
+    currentCarHasStarted = !currentCarHasStarted;
+  }
+
+  @action
+  void changeIsCurrentPointStart() {
+    isCurrentPointStart = !isCurrentPointStart;
+  }
+
+  @action
+  Future<void> getStatusCurrentCar() async {
+    final currentCarStatus = await FirebaseFirestore.instance
+        .collection("Carros")
+        .doc(currentCar)
+        .get();
+    if (currentCarStatus.data()!["Minutos de Início"] != null) {
+      changeCurrentCarStartStatus();
+    }
+  }
+
+  @action
+  Future<void> getStatusCurrentStop() async {
+    final currentStopStatus = await FirebaseFirestore.instance
+        .collection("Pontos")
+        .doc(currentStop)
+        .get();
+    if (currentStopStatus.data()!["Início"] == true) {
+      changeIsCurrentPointStart();
+    }
+  }
 
   @action
   Future<void> allStopNames() async {
@@ -103,6 +140,9 @@ abstract class _RacePageControllerBase with Store {
           .get();
       var initTimeCurrentCarDocument =
           await currentCarDocument.data()!["Minutos de Início"];
+      if (initTimeCurrentCarDocument != null) {
+        changeCurrentCarStartStatus();
+      }
       var currentStopTime = carPassedThroughtMinute +
           (carPassedThroughtHour * 60) +
           (carPassedThroughtSecond / 60);
