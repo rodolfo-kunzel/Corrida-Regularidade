@@ -3,6 +3,7 @@ import 'package:corrida_de_regulariodade_flutter/constants/app_button.dart';
 import 'package:corrida_de_regulariodade_flutter/constants/app_constant_colors.dart';
 import 'package:corrida_de_regulariodade_flutter/constants/app_dialog.dart';
 import 'package:corrida_de_regulariodade_flutter/constants/app_textfield.dart';
+import 'package:corrida_de_regulariodade_flutter/features/stop_list_page/view/stop_list_page_view.dart';
 import 'package:corrida_de_regulariodade_flutter/features/stop_register_page/controller/stop_register_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -155,12 +156,22 @@ class StopRegisterView extends StatelessWidget {
                 alignment: Alignment.topCenter,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    'Pontos',
-                    style: GoogleFonts.roboto(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 24,
-                        color: AppConstantColors.appWhite),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const StopListPageView(),
+                        ),
+                      );
+                    },
+                    child: Text(
+                      'Pontos',
+                      style: GoogleFonts.roboto(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 24,
+                          color: AppConstantColors.appWhite),
+                    ),
                   ),
                 ),
               ),
