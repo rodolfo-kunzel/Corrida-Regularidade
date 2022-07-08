@@ -36,11 +36,11 @@ class _CarListPageViewState extends State<CarListPageView> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Observer(builder: (_) {
-                    return InkWell(
+              Observer(builder: (_) {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    InkWell(
                       child: Icon(
                         Icons.refresh_rounded,
                         color: AppConstantColors.appBlack,
@@ -48,10 +48,10 @@ class _CarListPageViewState extends State<CarListPageView> {
                       onTap: () {
                         _controller.getAllCars();
                       },
-                    );
-                  })
-                ],
-              ),
+                    ),
+                  ],
+                );
+              }),
               const SizedBox(
                 height: 8,
               ),
@@ -77,32 +77,30 @@ class _CarListPageViewState extends State<CarListPageView> {
                       shrinkWrap: true,
                       itemCount: _controller.carInformation.length,
                       itemBuilder: (context, index) {
-                        return Observer(builder: (_) {
-                          return ListTile(
-                              leading: Text(
-                                _controller.carInformation[index]
-                                    ["Número do Carro"]!,
-                                style: const TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
-                              ),
-                              title: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    _controller.carInformation[index]
-                                            ["Número do Legendàrio"]!
-                                        .toString(),
-                                  ),
-                                ],
-                              ),
-                              trailing: InkWell(
-                                  onTap: () {
-                                    _controller.deleteCar(
-                                        _controller.carInformation[index]
-                                            ["Número do Carro"]!);
-                                  },
-                                  child: const Icon(Icons.delete)));
-                        });
+                        return ListTile(
+                            leading: Text(
+                              _controller.carInformation[index]
+                                  ["Número do Carro"]!,
+                              style: const TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.bold),
+                            ),
+                            title: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  _controller.carInformation[index]
+                                          ["Número do Legendàrio"]!
+                                      .toString(),
+                                ),
+                              ],
+                            ),
+                            trailing: InkWell(
+                                onTap: () {
+                                  _controller.deleteCar(
+                                      _controller.carInformation[index]
+                                          ["Número do Carro"]!);
+                                },
+                                child: const Icon(Icons.delete)));
                       },
                     )
                   : const Center(child: Text("Nenhum Carro Foi Adicionado")),
