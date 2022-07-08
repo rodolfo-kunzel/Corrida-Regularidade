@@ -2,7 +2,9 @@ import 'dart:async';
 import 'package:corrida_de_regulariodade_flutter/constants/app_bar_constant.dart';
 import 'package:corrida_de_regulariodade_flutter/constants/app_constant_colors.dart';
 import 'package:corrida_de_regulariodade_flutter/constants/app_dialog.dart';
+import 'package:corrida_de_regulariodade_flutter/constants/app_dialog_one_option.dart';
 import 'package:corrida_de_regulariodade_flutter/features/race_page/controller/race_page_controller.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -19,6 +21,7 @@ class RacePageView extends StatefulWidget {
 
 class _RacePageViewState extends State<RacePageView> {
   final _controller = RacePageController();
+  final String selectedCar = "";
 
   @override
   void initState() {
@@ -134,32 +137,25 @@ class _RacePageViewState extends State<RacePageView> {
                           child: Padding(
                             padding: const EdgeInsets.all(2.0),
                             child: Observer(builder: (_) {
-                              return DropdownButton(
-                                style: GoogleFonts.roboto(
+                              return DropdownSearch<String>(
+                                dropdownSearchDecoration: InputDecoration(
+                                  labelStyle: TextStyle(
+                                    fontFamily: GoogleFonts.roboto().fontFamily,
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                    color: AppConstantColors.appBlack),
-                                iconEnabledColor: AppConstantColors.appBlack,
-                                iconDisabledColor: AppConstantColors.appBlack,
-                                isExpanded: true,
-                                items: _controller.allCars
-                                    .map<DropdownMenuItem<String>>(
-                                        (String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(value,
-                                        style: GoogleFonts.roboto(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16,
-                                            color: AppConstantColors.appBlack)),
-                                  );
-                                }).toList(),
+                                    fontSize: 20,
+                                    color: AppConstantColors.appBlack,
+                                  ),
+                                ),
+                                searchFieldProps: TextFieldProps(
+                                    style: GoogleFonts.roboto(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16,
+                                        color: AppConstantColors.appBlack)),
+                                mode: Mode.MENU,
+                                showSearchBox: true,
+                                items: _controller.allCars,
+                                selectedItem: selectedCar,
                                 onChanged: _controller.changeCurrentCar,
-                                underline: const SizedBox(),
-                                hint: const Text("Selecione um Carro"),
-                                value: _controller.currentCar == ""
-                                    ? null
-                                    : _controller.currentCar,
                               );
                             }),
                           ),
@@ -219,26 +215,46 @@ class _RacePageViewState extends State<RacePageView> {
               child: Observer(
                 builder: (_) {
                   return AppButton(
-                    onTap: () {
-                      _controller.allInputsValid
-                          ? showDialog(
-                              context: context,
-                              builder: (context) {
-                                return AppDialog(
-                                  text: "Você confirma o registro da corrida?",
-                                  leftButtonTitle: "Não",
-                                  rightButtonTitle: "Sim",
-                                  leftButtonAction: () {
-                                    Navigator.pop(context);
-                                  },
-                                  rightButtonAction: () async {
-                                    await _controller.stopCarTimeRegister();
-                                    Navigator.pop(context);
-                                    Navigator.pop(context);
-                                  },
-                                );
-                              })
-                          : null;
+                    onTap: () async {
+                      await _controller.getStatusCurrentCar();
+                      await _controller.getStatusCurrentStop();
+                      if (_controller.isCurrentPointStart == false &&
+                          _controller.currentCarHasStarted == false) {
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AppDialogOneOption(
+                                text: "O carro ainda não iniciou",
+                                buttonTitle: "ok",
+                                buttonAction: () {
+                                  Navigator.pop(context);
+                                  Navigator.pop(context);
+                                },
+                              );
+                            });
+                      } else {
+                        _controller.allInputsValid
+                            ? showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AppDialog(
+                                    text:
+                                        "Você confirma o registro da corrida?",
+                                    leftButtonTitle: "Não",
+                                    rightButtonTitle: "Sim",
+                                    leftButtonAction: () {
+                                      Navigator.pop(context);
+                                      Navigator.pop(context);
+                                    },
+                                    rightButtonAction: () async {
+                                      await _controller.stopCarTimeRegister();
+                                      Navigator.pop(context);
+                                      Navigator.pop(context);
+                                    },
+                                  );
+                                })
+                            : null;
+                      }
                     },
                     bottonBackgroud: _controller.allInputsValid
                         ? AppConstantColors.appBlack
