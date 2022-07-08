@@ -2,6 +2,7 @@ import 'package:corrida_de_regulariodade_flutter/constants/app_bar_constant.dart
 import 'package:corrida_de_regulariodade_flutter/constants/app_constant_colors.dart';
 import 'package:corrida_de_regulariodade_flutter/features/stop_list_page/controller/stop_list_page_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 
 class StopListPageView extends StatefulWidget {
   const StopListPageView({Key? key}) : super(key: key);
@@ -33,21 +34,23 @@ class _StopListPageViewState extends State<StopListPageView> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                InkWell(
-                  child: Icon(
-                    Icons.refresh_rounded,
-                    color: AppConstantColors.appBlack,
-                  ),
-                  onTap: () {
-                    _controller.getAllStops();
-                    setState(() {});
-                  },
-                )
-              ],
-            ),
+            Observer(builder: (_) {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  InkWell(
+                    child: Icon(
+                      Icons.refresh_rounded,
+                      color: AppConstantColors.appBlack,
+                    ),
+                    onTap: () {
+                      _controller.getAllStops();
+                      setState(() {});
+                    },
+                  )
+                ],
+              );
+            }),
             const SizedBox(
               height: 8,
             ),
